@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="El material presentado se ha desarrollado como una guía en el uso de la librería ggplot2 en R para la creación de gráficos">
+
+<title>Manual de gráficos en R con la librería ggplot2 - 3&nbsp; Librería ggplot</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema-plot-barras.html" rel="next">
+<link href="./intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema-ggplot-histograma.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Librería ggplot</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Manual de gráficos en R con la librería ggplot2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Acerca del contenido</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conceptos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-ggplot-histograma.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Librería ggplot</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-plot-barras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gráfico de Barra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-plot-pie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Gráficos de Pastel</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-plot-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Gráficos de puntos o dispersión</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-ggplot-lineas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Gráficos de Línea</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-ggplot-area.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Gráficos de densidad y Area</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema-plot-themes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Temas para gráficos en ggplot</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#cargar-librerias" id="toc-cargar-librerias" class="nav-link active" data-scroll-target="#cargar-librerias"><span class="header-section-number">3.1</span> Cargar librerias</a></li>
+  <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos"><span class="header-section-number">3.2</span> Carga de datos</a></li>
+  <li><a href="#librería-ggplot2" id="toc-librería-ggplot2" class="nav-link" data-scroll-target="#librería-ggplot2"><span class="header-section-number">3.3</span> Librería ggplot2</a></li>
+  <li><a href="#operador-pipe" id="toc-operador-pipe" class="nav-link" data-scroll-target="#operador-pipe"><span class="header-section-number">3.4</span> Operador pipe</a></li>
+  <li><a href="#estructura-de-ggplot" id="toc-estructura-de-ggplot" class="nav-link" data-scroll-target="#estructura-de-ggplot"><span class="header-section-number">3.5</span> Estructura de ggplot</a></li>
+  <li><a href="#función-ggplot" id="toc-función-ggplot" class="nav-link" data-scroll-target="#función-ggplot"><span class="header-section-number">3.6</span> Función ggplot()</a></li>
+  <li><a href="#cargar-datos-en-ggplot" id="toc-cargar-datos-en-ggplot" class="nav-link" data-scroll-target="#cargar-datos-en-ggplot"><span class="header-section-number">3.7</span> Cargar datos en ggplot</a></li>
+  <li><a href="#mapeado-y-estética" id="toc-mapeado-y-estética" class="nav-link" data-scroll-target="#mapeado-y-estética"><span class="header-section-number">3.8</span> Mapeado y estética</a></li>
+  <li><a href="#geometría" id="toc-geometría" class="nav-link" data-scroll-target="#geometría"><span class="header-section-number">3.9</span> Geometría</a></li>
+  <li><a href="#ejemplo-de-gráficos-en-ggplot" id="toc-ejemplo-de-gráficos-en-ggplot" class="nav-link" data-scroll-target="#ejemplo-de-gráficos-en-ggplot"><span class="header-section-number">3.10</span> Ejemplo de gráficos en ggplot</a></li>
+  <li><a href="#tipos-de-datos-en-ggplot" id="toc-tipos-de-datos-en-ggplot" class="nav-link" data-scroll-target="#tipos-de-datos-en-ggplot"><span class="header-section-number">3.11</span> Tipos de datos en ggplot</a>
+  <ul class="collapse">
+  <li><a href="#objeto-tipo-dataframe" id="toc-objeto-tipo-dataframe" class="nav-link" data-scroll-target="#objeto-tipo-dataframe"><span class="header-section-number">3.11.1</span> Objeto tipo dataframe</a></li>
+  <li><a href="#objeto-tipo-tibble" id="toc-objeto-tipo-tibble" class="nav-link" data-scroll-target="#objeto-tipo-tibble"><span class="header-section-number">3.11.2</span> Objeto tipo tibble</a></li>
+  <li><a href="#resumen-de-datos" id="toc-resumen-de-datos" class="nav-link" data-scroll-target="#resumen-de-datos"><span class="header-section-number">3.11.3</span> Resumen de datos</a></li>
+  <li><a href="#limpieza-de-nombre-de-variables" id="toc-limpieza-de-nombre-de-variables" class="nav-link" data-scroll-target="#limpieza-de-nombre-de-variables"><span class="header-section-number">3.11.4</span> Limpieza de nombre de variables</a></li>
+  <li><a href="#transformación-de-variables" id="toc-transformación-de-variables" class="nav-link" data-scroll-target="#transformación-de-variables"><span class="header-section-number">3.11.5</span> Transformación de variables</a></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">3.11.6</span> Tidy data</a></li>
+  <li><a href="#resumen-de-datos-con-función-skim" id="toc-resumen-de-datos-con-función-skim" class="nav-link" data-scroll-target="#resumen-de-datos-con-función-skim"><span class="header-section-number">3.11.7</span> Resumen de datos con función skim()</a></li>
+  </ul></li>
+  <li><a href="#gráfico-de-histograma-en-r" id="toc-gráfico-de-histograma-en-r" class="nav-link" data-scroll-target="#gráfico-de-histograma-en-r"><span class="header-section-number">4</span> Gráfico de Histograma en R</a>
+  <ul class="collapse">
+  <li><a href="#modifcar-el-número-de-bins" id="toc-modifcar-el-número-de-bins" class="nav-link" data-scroll-target="#modifcar-el-número-de-bins"><span class="header-section-number">4.1</span> Modifcar el número de bins</a></li>
+  <li><a href="#modificar-color-de-las-líneas" id="toc-modificar-color-de-las-líneas" class="nav-link" data-scroll-target="#modificar-color-de-las-líneas"><span class="header-section-number">4.2</span> Modificar color de las líneas</a></li>
+  <li><a href="#modificar-color-de-relleno-bins" id="toc-modificar-color-de-relleno-bins" class="nav-link" data-scroll-target="#modificar-color-de-relleno-bins"><span class="header-section-number">4.3</span> Modificar color de relleno bins</a></li>
+  <li><a href="#añadir-datos-al-gráfico" id="toc-añadir-datos-al-gráfico" class="nav-link" data-scroll-target="#añadir-datos-al-gráfico"><span class="header-section-number">4.4</span> Añadir datos al gráfico</a></li>
+  <li><a href="#ajustar-datos-en-gráfico" id="toc-ajustar-datos-en-gráfico" class="nav-link" data-scroll-target="#ajustar-datos-en-gráfico"><span class="header-section-number">4.5</span> Ajustar datos en gráfico</a></li>
+  <li><a href="#datos-en-gráfico-bins" id="toc-datos-en-gráfico-bins" class="nav-link" data-scroll-target="#datos-en-gráfico-bins"><span class="header-section-number">4.6</span> Datos en gráfico (bins)</a></li>
+  <li><a href="#añadir-info-al-gráfico" id="toc-añadir-info-al-gráfico" class="nav-link" data-scroll-target="#añadir-info-al-gráfico"><span class="header-section-number">4.7</span> Añadir info al gráfico</a></li>
+  <li><a href="#histograma-y-densidad" id="toc-histograma-y-densidad" class="nav-link" data-scroll-target="#histograma-y-densidad"><span class="header-section-number">4.8</span> Histograma y densidad</a></li>
+  <li><a href="#histograma-con-variable-categórica" id="toc-histograma-con-variable-categórica" class="nav-link" data-scroll-target="#histograma-con-variable-categórica"><span class="header-section-number">4.9</span> Histograma con variable categórica</a>
+  <ul class="collapse">
+  <li><a href="#añadir-datos-al-histograma" id="toc-añadir-datos-al-histograma" class="nav-link" data-scroll-target="#añadir-datos-al-histograma"><span class="header-section-number">4.9.1</span> Añadir datos al histograma</a></li>
+  <li><a href="#histograma-con-transparencia" id="toc-histograma-con-transparencia" class="nav-link" data-scroll-target="#histograma-con-transparencia"><span class="header-section-number">4.9.2</span> Histograma con transparencia</a></li>
+  <li><a href="#histograma-con-transparencia-position" id="toc-histograma-con-transparencia-position" class="nav-link" data-scroll-target="#histograma-con-transparencia-position"><span class="header-section-number">4.9.3</span> Histograma con transparencia (position)</a></li>
+  </ul></li>
+  <li><a href="#facetas" id="toc-facetas" class="nav-link" data-scroll-target="#facetas"><span class="header-section-number">4.10</span> Facetas</a></li>
+  <li><a href="#recomendaciones-viz" id="toc-recomendaciones-viz" class="nav-link" data-scroll-target="#recomendaciones-viz"><span class="header-section-number">4.11</span> Recomendaciones (VIZ)</a>
+  <ul class="collapse">
+  <li><a href="#recomendación-1" id="toc-recomendación-1" class="nav-link" data-scroll-target="#recomendación-1"><span class="header-section-number">4.11.1</span> Recomendación 1</a></li>
+  <li><a href="#recomendación-2" id="toc-recomendación-2" class="nav-link" data-scroll-target="#recomendación-2"><span class="header-section-number">4.11.2</span> Recomendación 2</a></li>
+  </ul></li>
+  <li><a href="#titulos-y-nombre-de-ejes" id="toc-titulos-y-nombre-de-ejes" class="nav-link" data-scroll-target="#titulos-y-nombre-de-ejes"><span class="header-section-number">4.12</span> Titulos y nombre de ejes</a></li>
+  <li><a href="#práctica" id="toc-práctica" class="nav-link" data-scroll-target="#práctica"><span class="header-section-number">4.13</span> Práctica</a></li>
+  </ul></li>
+  <li><a href="#gráfico-de-boxplot" id="toc-gráfico-de-boxplot" class="nav-link" data-scroll-target="#gráfico-de-boxplot"><span class="header-section-number">5</span> Gráfico de boxplot</a>
+  <ul class="collapse">
+  <li><a href="#valores-atipicos" id="toc-valores-atipicos" class="nav-link" data-scroll-target="#valores-atipicos"><span class="header-section-number">5.1</span> Valores atipicos</a></li>
+  <li><a href="#boxplot-vertical" id="toc-boxplot-vertical" class="nav-link" data-scroll-target="#boxplot-vertical"><span class="header-section-number">5.2</span> Boxplot vertical</a></li>
+  <li><a href="#boxplot-con-distribución-de-puntos" id="toc-boxplot-con-distribución-de-puntos" class="nav-link" data-scroll-target="#boxplot-con-distribución-de-puntos"><span class="header-section-number">5.3</span> Boxplot con distribución de puntos</a></li>
+  <li><a href="#boxplot-con-colores" id="toc-boxplot-con-colores" class="nav-link" data-scroll-target="#boxplot-con-colores"><span class="header-section-number">5.4</span> Boxplot con colores</a></li>
+  <li><a href="#boxplot-con-dos-variables" id="toc-boxplot-con-dos-variables" class="nav-link" data-scroll-target="#boxplot-con-dos-variables"><span class="header-section-number">5.5</span> Boxplot con dos variables</a></li>
+  <li><a href="#boxplot-con-dos-variables---colores" id="toc-boxplot-con-dos-variables---colores" class="nav-link" data-scroll-target="#boxplot-con-dos-variables---colores"><span class="header-section-number">5.6</span> Boxplot con dos variables - colores</a></li>
+  </ul></li>
+  <li><a href="#gráfico-ridge" id="toc-gráfico-ridge" class="nav-link" data-scroll-target="#gráfico-ridge"><span class="header-section-number">6</span> Gráfico Ridge</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-ridge---color" id="toc-gráfico-ridge---color" class="nav-link" data-scroll-target="#gráfico-ridge---color"><span class="header-section-number">6.1</span> Gráfico Ridge - color</a></li>
+  <li><a href="#gráfico-ridge---color-palette" id="toc-gráfico-ridge---color-palette" class="nav-link" data-scroll-target="#gráfico-ridge---color-palette"><span class="header-section-number">6.2</span> Gráfico Ridge - color palette</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Librería ggplot</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="cargar-librerias" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="cargar-librerias"><span class="header-section-number">3.1</span> Cargar librerias</h2>
+<p>Librerias necesarias que se deben haber instalado previamente con <strong>install.packages(nombre del paquete)</strong> o en el panel <strong>Package</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># incluye ggplot2</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># funciones para importar xlsx</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># funciones de limpieza</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co">#combinar gráficos de ggplot</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggExtra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes) <span class="co"># nuevas temas para los plots</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly) <span class="co">#gráficos interactivos # remotes::install_github("plotly/plotly")</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># reseumen numerico</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modeest)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel) <span class="co"># añadir etiquetas a los gráficos</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer) <span class="co">#paletas de colores</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly) <span class="co">#graficos interactivos</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="carga-de-datos" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="carga-de-datos"><span class="header-section-number">3.2</span> Carga de datos</h2>
+<p>Para cargar los datos debe crear un nuevo archivo script de R y empezar a utilizar lo ssiguientes códigos. <br></p>
+<p>Se utilizará una versión de los datos <strong>palmerpinguins</strong>, recopilados y puestos a disposición por la <strong>Dra. Kristen Gorman</strong> y la Estación Palmer, Antártida LTER , miembro de <strong>Long Term Ecological Research Network</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/data_penguins.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_pinguinos,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X SPECIES   ISLAND. bill.lenght bill.depth flipper.lenght MALE FEMALE
+1 1  Adelie Torgersen        39.1       18.7            181 3750     NA
+2 2  Adelie Torgersen        39.5       17.4            186   NA   3800
+3 3  Adelie Torgersen        40.3       18.0            195   NA   3250
+4 4  Adelie Torgersen        36.7       19.3            193   NA   3450
+5 5  Adelie Torgersen        39.3       20.6            190 3650     NA</code></pre>
+</div>
+</div>
+</section>
+<section id="librería-ggplot2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="librería-ggplot2"><span class="header-section-number">3.3</span> Librería ggplot2</h2>
+<p>El paquete <strong>ggplot2</strong> es una paquete incluido en la librería <strong>tidyverse (incluye: ggplot2, dplyr, tidyr, readr, purr,tibble, forcats, lubridate)</strong>, cuya finalidad es entender los gráficos como parte integrar del procesamiento y modelado de los datos, basándose en la idea de <em>Leland Wilkinson</em>, <strong>lgramática de los gráficos</strong>. Este concepto permite combinar diferentes elementos en el gráficos como si fueran capas superpuestas para vincularlas a los datos, además de mapear atributos estéticos como , color, forma, tamaño y la visualización de objetos geométricos (puntos, barras, lineas). <strong>gplot</strong> es la abreviación de <em>Grammar of Graphics plot</em>.</p>
+<p>Un gráfico en <strong>ggplot</strong> se compone de las siguientes capas:</p>
+<ul>
+<li><strong>Datos</strong>: conjunto de datos.</li>
+<li><strong>Mapeado de elementos (aesthetics):</strong> ejes, color, forma, tamaño, etc (en función de los datos)</li>
+<li><strong>Elementos geométricos (geom):</strong> puntos, líneas, barras, polígonos, etc.</li>
+<li><strong>Componer gráficas (facet):</strong> visualizar varias gráficas a la vez.</li>
+<li><strong>Transformaciones estadísticas (stat):</strong> ordenar, resumir, agrupar, etc.</li>
+<li><strong>Sistema de coordenadas (coord):</strong> coordenadas, grids, etc.</li>
+<li><strong>Temas (theme):</strong> fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.</li>
+</ul>
+<p><img src="img/ggplot_g.jpg" class="img-fluid" width="531"></p>
+</section>
+<section id="operador-pipe" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="operador-pipe"><span class="header-section-number">3.4</span> Operador pipe</h2>
+<p>El operador <strong>pipe</strong> que simbólicamente se puede utilizar como <strong>%&gt;%</strong> o <strong>|&gt; (versiones recientes)</strong> se utiliza para tomar el resultado de unaexpresión y pasarlo a la siguiente expresión, como si estuvieras <em>encajando o uniendo</em> las operaciones una después de la otra. Para utilizar el simbolo del pipe, podemos utilizar las siguientes teclas <strong>CTRL+SHIFT+M</strong>. <br> Este componente es parte de los elementos utilizados en la transformación de datos o Data Wrangling y se utilizará en algunos códigos en este contenido.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo 1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Listar los primeros 10 obs de la tabla</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_pinguinos, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    X SPECIES   ISLAND. bill.lenght bill.depth flipper.lenght MALE FEMALE
+1   1  Adelie Torgersen        39.1       18.7            181 3750     NA
+2   2  Adelie Torgersen        39.5       17.4            186   NA   3800
+3   3  Adelie Torgersen        40.3       18.0            195   NA   3250
+4   4  Adelie Torgersen        36.7       19.3            193   NA   3450
+5   5  Adelie Torgersen        39.3       20.6            190 3650     NA
+6   6  Adelie Torgersen        38.9       17.8            181   NA   3625
+7   7  Adelie Torgersen        39.2       19.6            195 4675     NA
+8   8  Adelie Torgersen        41.1       17.6            182   NA   3200
+9   9  Adelie Torgersen        38.6       21.2            191 3800     NA
+10 10  Adelie Torgersen        34.6       21.1            198 4400     NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Utilizando pipe</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># llamamos el tibble de datos</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    X SPECIES   ISLAND. bill.lenght bill.depth flipper.lenght MALE FEMALE
+1   1  Adelie Torgersen        39.1       18.7            181 3750     NA
+2   2  Adelie Torgersen        39.5       17.4            186   NA   3800
+3   3  Adelie Torgersen        40.3       18.0            195   NA   3250
+4   4  Adelie Torgersen        36.7       19.3            193   NA   3450
+5   5  Adelie Torgersen        39.3       20.6            190 3650     NA
+6   6  Adelie Torgersen        38.9       17.8            181   NA   3625
+7   7  Adelie Torgersen        39.2       19.6            195 4675     NA
+8   8  Adelie Torgersen        41.1       17.6            182   NA   3200
+9   9  Adelie Torgersen        38.6       21.2            191 3800     NA
+10 10  Adelie Torgersen        34.6       21.1            198 4400     NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo 2</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen de lso datos </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(datos_pinguinos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X         SPECIES            ISLAND.           bill.lenght   
+ Min.   :  1   Length:333         Length:333         Min.   :32.10  
+ 1st Qu.: 84   Class :character   Class :character   1st Qu.:39.50  
+ Median :167   Mode  :character   Mode  :character   Median :44.50  
+ Mean   :167                                         Mean   :43.99  
+ 3rd Qu.:250                                         3rd Qu.:48.60  
+ Max.   :333                                         Max.   :59.60  
+                                                                    
+   bill.depth    flipper.lenght      MALE          FEMALE    
+ Min.   :13.10   Min.   :172    Min.   :3250   Min.   :2700  
+ 1st Qu.:15.60   1st Qu.:190    1st Qu.:3900   1st Qu.:3350  
+ Median :17.30   Median :197    Median :4300   Median :3650  
+ Mean   :17.16   Mean   :201    Mean   :4546   Mean   :3862  
+ 3rd Qu.:18.70   3rd Qu.:213    3rd Qu.:5312   3rd Qu.:4550  
+ Max.   :21.50   Max.   :231    Max.   :6300   Max.   :5200  
+                                NA's   :165    NA's   :168   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando pipe</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X         SPECIES            ISLAND.           bill.lenght   
+ Min.   :  1   Length:333         Length:333         Min.   :32.10  
+ 1st Qu.: 84   Class :character   Class :character   1st Qu.:39.50  
+ Median :167   Mode  :character   Mode  :character   Median :44.50  
+ Mean   :167                                         Mean   :43.99  
+ 3rd Qu.:250                                         3rd Qu.:48.60  
+ Max.   :333                                         Max.   :59.60  
+                                                                    
+   bill.depth    flipper.lenght      MALE          FEMALE    
+ Min.   :13.10   Min.   :172    Min.   :3250   Min.   :2700  
+ 1st Qu.:15.60   1st Qu.:190    1st Qu.:3900   1st Qu.:3350  
+ Median :17.30   Median :197    Median :4300   Median :3650  
+ Mean   :17.16   Mean   :201    Mean   :4546   Mean   :3862  
+ 3rd Qu.:18.70   3rd Qu.:213    3rd Qu.:5312   3rd Qu.:4550  
+ Max.   :21.50   Max.   :231    Max.   :6300   Max.   :5200  
+                                NA's   :165    NA's   :168   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo 3</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar las columnas 3 y 5 del tibble datospinguinos</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># donde island es igual a Torgersen</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># mostrar priemaras 5 filas</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_pinguinos[datos_pinguinos<span class="sc">$</span>ISLAND.<span class="sc">==</span><span class="st">"Torgersen"</span>,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>)],<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  bill.lenght bill.depth
+1        39.1       18.7
+2        39.5       17.4
+3        40.3       18.0
+4        36.7       19.3
+5        39.3       20.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Utilizando pipe</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ISLAND.<span class="sc">==</span><span class="st">"Torgersen"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill.lenght,bill.depth) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  bill.lenght bill.depth
+1        39.1       18.7
+2        39.5       17.4
+3        40.3       18.0
+4        36.7       19.3
+5        39.3       20.6</code></pre>
+</div>
+</div>
+</section>
+<section id="estructura-de-ggplot" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="estructura-de-ggplot"><span class="header-section-number">3.5</span> Estructura de ggplot</h2>
+<p>La estrutura base de <strong>ggplot</strong> es la siguiente:</p>
+<p><img src="img/ggplot2_structure.png" class="img-fluid" width="357"></p>
+</section>
+<section id="función-ggplot" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="función-ggplot"><span class="header-section-number">3.6</span> Función ggplot()</h2>
+<p>Utilizando solo la función <strong>ggplot()</strong>, se crea un lienzo o espacio de trabajo para la creación de un gráfico.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="cargar-datos-en-ggplot" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="cargar-datos-en-ggplot"><span class="header-section-number">3.7</span> Cargar datos en ggplot</h2>
+<p><strong>data:</strong> es el nombre del tabla en formato tibble o dataframe y se utiliza para cargar los datos, en este caso la tabla <strong>datos_pinguinos</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>datos_pinguinos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="mapeado-y-estética" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="mapeado-y-estética"><span class="header-section-number">3.8</span> Mapeado y estética</h2>
+<p><strong>mapping:</strong> define el mapeo estético de señales proporcionadas por el set de datos, las variables que modifican estas señales deben estar integradas en <em>aes()</em> que integran las escalas, x, y, que representarán cada observación según variables, tambien en este apartado se identifican otras señales como color, size. En este ejemplo utilizaremos solo la varable <strong>SPECIES</strong>. <br> Se mostrará en el eje de las X los datos <strong>CATEGORICOS</strong> de la variable <strong>SPECIES</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos_pinguinos, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>SPECIES))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="geometría" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="geometría"><span class="header-section-number">3.9</span> Geometría</h2>
+<p>Para poder dibujar el gráfico, ggplot necesita que añadamos una nueva capa de la geometría o tipo de gráfico a utilizar. Para añadir la nueva capa debemos de colocar el signo de + al final de la línea de <strong>mapping</strong> y luego el tipo de geometría <a href="https://ggplot2.tidyverse.org/reference/">Geometrías ggplot</a>. <br> En este ejemplo utilizaremos <strong>geom_bar()</strong>: representa el tipo de geometría de barras que muestra la figura de los gráficos que interperta la agrupación de datos de la variable categórica <strong>SPECIES</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos_pinguinos, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>SPECIES))<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="ejemplo-de-gráficos-en-ggplot" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="ejemplo-de-gráficos-en-ggplot"><span class="header-section-number">3.10</span> Ejemplo de gráficos en ggplot</h2>
+<p>A manera de ejemplo mostraremos tres tipos de gráficos en ggplot con <strong>diferentes geometrías</strong>, solo con el objetivo de ver la estructura básica funcionando donde con los mismos datos solo cambio el tipo de geometría <strong>geom_</strong>. Al avanzar el contenido se mostrará como funciona el paquete <strong>ggplot</strong> y el funcionamiento de estas geometrias de forma más detallada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Ejemplo de gráfico de puntos</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos_pinguinos, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>bill.lenght, <span class="at">y=</span>bill.depth))<span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de gráfico de barras una variable</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos_pinguinos, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>SPECIES))<span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de gráfico de barras dos variables</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos_pinguinos, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">factor</span>(ISLAND.), <span class="at">y=</span>bill.lenght))<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="tipos-de-datos-en-ggplot" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="tipos-de-datos-en-ggplot"><span class="header-section-number">3.11</span> Tipos de datos en ggplot</h2>
+<p>Para hacer gráficos con ggplot es necesario que el conjunto de datos sea un tipo de datos estructurado de dos dimensiones que permiten diferentes tipos de datos, por lo que son heterogéneos, en este caso , este tipo de estructuras de datos en R, son los <strong>dataframes</strong> o los <strong>tibble</strong>.</p>
+<section id="objeto-tipo-dataframe" class="level3" data-number="3.11.1">
+<h3 data-number="3.11.1" class="anchored" data-anchor-id="objeto-tipo-dataframe"><span class="header-section-number">3.11.1</span> Objeto tipo dataframe</h3>
+<p>Los <strong>data frame</strong> son datos estructurados, lo que comunmente conocemos como <em>tablas</em>. Su mayor características es que los datos que lo conforman pueden ser de diferentes tipos, numéricos (discretos, continuos), caracteres, lógicos, etc. Una de sus limitantes es que al cargar los datos R puede modificarr el nombre de las variables, si contienen espacios en blancos o algunos carateres especiales, colocan puntos a la variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame mtcars muestra todas las filas, se indica con head, mostrar solo 25</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_pinguinos,<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    X SPECIES   ISLAND. bill.lenght bill.depth flipper.lenght MALE FEMALE
+1   1  Adelie Torgersen        39.1       18.7            181 3750     NA
+2   2  Adelie Torgersen        39.5       17.4            186   NA   3800
+3   3  Adelie Torgersen        40.3       18.0            195   NA   3250
+4   4  Adelie Torgersen        36.7       19.3            193   NA   3450
+5   5  Adelie Torgersen        39.3       20.6            190 3650     NA
+6   6  Adelie Torgersen        38.9       17.8            181   NA   3625
+7   7  Adelie Torgersen        39.2       19.6            195 4675     NA
+8   8  Adelie Torgersen        41.1       17.6            182   NA   3200
+9   9  Adelie Torgersen        38.6       21.2            191 3800     NA
+10 10  Adelie Torgersen        34.6       21.1            198 4400     NA
+11 11  Adelie Torgersen        36.6       17.8            185   NA   3700
+12 12  Adelie Torgersen        38.7       19.0            195   NA   3450
+13 13  Adelie Torgersen        42.5       20.7            197 4500     NA
+14 14  Adelie Torgersen        34.4       18.4            184   NA   3325
+15 15  Adelie Torgersen        46.0       21.5            194 4200     NA
+16 16  Adelie    Biscoe        37.8       18.3            174   NA   3400
+17 17  Adelie    Biscoe        37.7       18.7            180 3600     NA
+18 18  Adelie    Biscoe        35.9       19.2            189   NA   3800
+19 19  Adelie    Biscoe        38.2       18.1            185 3950     NA
+20 20  Adelie    Biscoe        38.8       17.2            180 3800     NA
+21 21  Adelie    Biscoe        35.3       18.9            187   NA   3800
+22 22  Adelie    Biscoe        40.6       18.6            183 3550     NA
+23 23  Adelie    Biscoe        40.5       17.9            187   NA   3200
+24 24  Adelie    Biscoe        37.9       18.6            172   NA   3150
+25 25  Adelie    Biscoe        40.5       18.9            180 3950     NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar Objeto tipo data.frame</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(datos_pinguinos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+</section>
+<section id="objeto-tipo-tibble" class="level3" data-number="3.11.2">
+<h3 data-number="3.11.2" class="anchored" data-anchor-id="objeto-tipo-tibble"><span class="header-section-number">3.11.2</span> Objeto tipo tibble</h3>
+<p>Los <strong>tibble</strong> son un tipo de <strong>data frame</strong> para una gestión más ágil, eficiente y coherente. Las tablas en formato tibble tienen 4 ventajas principales frente a los data frame:</p>
+<ul>
+<li>Permiten imprimir por consola la tabla con <strong>mayor información de las variables</strong>, solo imprime por defecto las primeras filas (todas si son 20 o menos, 10 si son más de 20 filas). Puedes imprimir las filas y columnas que quieras con <strong>print(nombre de tibble)</strong>, pero por defecto te aseguras de no saturar la consola.</li>
+<li>Mantiene la <strong>integridad de los datos</strong> (no cambia los tipos de las variables y hace una carga de datos inteligente, <strong>interpretando los tipos de datos</strong> y colocandolos encima de cada variable.</li>
+<li>Si accedes a una columna que no existe <strong>avisa con un warning</strong>.</li>
+<li>No solo no cambiará el tipo de datos sino que <strong>no cambiará el nombre de las variables</strong> (los data frame transforma los caracteres que no sean letras).</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transformat dataframe a tible </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(datos_pinguinos)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar Objeto tipo tibble</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(datos_pinguinos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tibble imprime solo las primeras 10 </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># coloca el tipo de dato sencima del nombre de la variable</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_pinguinos,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 8
+       X SPECIES ISLAND.   bill.lenght bill.depth flipper.lenght  MALE FEMALE
+   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;          &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+ 1     1 Adelie  Torgersen        39.1       18.7            181  3750     NA
+ 2     2 Adelie  Torgersen        39.5       17.4            186    NA   3800
+ 3     3 Adelie  Torgersen        40.3       18              195    NA   3250
+ 4     4 Adelie  Torgersen        36.7       19.3            193    NA   3450
+ 5     5 Adelie  Torgersen        39.3       20.6            190  3650     NA
+ 6     6 Adelie  Torgersen        38.9       17.8            181    NA   3625
+ 7     7 Adelie  Torgersen        39.2       19.6            195  4675     NA
+ 8     8 Adelie  Torgersen        41.1       17.6            182    NA   3200
+ 9     9 Adelie  Torgersen        38.6       21.2            191  3800     NA
+10    10 Adelie  Torgersen        34.6       21.1            198  4400     NA</code></pre>
+</div>
+</div>
+</section>
+<section id="resumen-de-datos" class="level3" data-number="3.11.3">
+<h3 data-number="3.11.3" class="anchored" data-anchor-id="resumen-de-datos"><span class="header-section-number">3.11.3</span> Resumen de datos</h3>
+<p>Existen diversas formas de mostrar la estructura o resumen de datos en R, en este caso los datos <strong>datos_pinguinos</strong> (dataframe o tibble) con sus tipos de datos según variables es utilizando la función <strong>summary()</strong> y <strong>glipmse()</strong>, esto permite identificar anomalías en los nombre de las variables o en el tipo de variables y es un elemento indispensable para conocer los datos y sus tipos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra la estructura de los datos y el tipo de datos</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X         SPECIES            ISLAND.           bill.lenght   
+ Min.   :  1   Length:333         Length:333         Min.   :32.10  
+ 1st Qu.: 84   Class :character   Class :character   1st Qu.:39.50  
+ Median :167   Mode  :character   Mode  :character   Median :44.50  
+ Mean   :167                                         Mean   :43.99  
+ 3rd Qu.:250                                         3rd Qu.:48.60  
+ Max.   :333                                         Max.   :59.60  
+                                                                    
+   bill.depth    flipper.lenght      MALE          FEMALE    
+ Min.   :13.10   Min.   :172    Min.   :3250   Min.   :2700  
+ 1st Qu.:15.60   1st Qu.:190    1st Qu.:3900   1st Qu.:3350  
+ Median :17.30   Median :197    Median :4300   Median :3650  
+ Mean   :17.16   Mean   :201    Mean   :4546   Mean   :3862  
+ 3rd Qu.:18.70   3rd Qu.:213    3rd Qu.:5312   3rd Qu.:4550  
+ Max.   :21.50   Max.   :231    Max.   :6300   Max.   :5200  
+                                NA's   :165    NA's   :168   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La función glimpse es otra forma de mostrar los datos</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre todo cuando son muchas variables</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra tambien el tipo de dato por variable</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Permite mostrar la estructura de datos de forma más ordenada</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 8
+$ X              &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
+$ SPECIES        &lt;chr&gt; "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adel…
+$ ISLAND.        &lt;chr&gt; "Torgersen", "Torgersen", "Torgersen", "Torgersen", "To…
+$ bill.lenght    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 3…
+$ bill.depth     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 2…
+$ flipper.lenght &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, …
+$ MALE           &lt;int&gt; 3750, NA, NA, NA, 3650, NA, 4675, NA, 3800, 4400, NA, N…
+$ FEMALE         &lt;int&gt; NA, 3800, 3250, 3450, NA, 3625, NA, 3200, NA, NA, 3700,…</code></pre>
+</div>
+</div>
+</section>
+<section id="limpieza-de-nombre-de-variables" class="level3" data-number="3.11.4">
+<h3 data-number="3.11.4" class="anchored" data-anchor-id="limpieza-de-nombre-de-variables"><span class="header-section-number">3.11.4</span> Limpieza de nombre de variables</h3>
+<p>Si bien la limpieza de los datos es un elemento importante al visualizar datos, no es un tema que veremos en este curso, sin embargo podemos evaluar si el nombre de las variables no están normalizados, que tengan espacios en blanco, ya que si la estructura de datos es un dataframe, R los carga con um punto (.), además de que algunas están en mayúscula y otra en minúscula. Por otro lado podemos eliminar las columnas irrelevantes como la columna <strong>X</strong> en el tibble, que no representa ningún dato de interés en la tabla.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de las variables</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "X"              "SPECIES"        "ISLAND."        "bill.lenght"   
+[5] "bill.depth"     "flipper.lenght" "MALE"           "FEMALE"        </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># limpieza y normalización de nombres de las variables con janitor</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(datos_pinguinos)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># eliminar primera columna</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> datos_pinguinos[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "species"        "island"         "bill_lenght"    "bill_depth"    
+[5] "flipper_lenght" "male"           "female"        </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen de datos</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 7
+$ species        &lt;chr&gt; "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adel…
+$ island         &lt;chr&gt; "Torgersen", "Torgersen", "Torgersen", "Torgersen", "To…
+$ bill_lenght    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 3…
+$ bill_depth     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 2…
+$ flipper_lenght &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, …
+$ male           &lt;int&gt; 3750, NA, NA, NA, 3650, NA, 4675, NA, 3800, 4400, NA, N…
+$ female         &lt;int&gt; NA, 3800, 3250, 3450, NA, 3625, NA, 3200, NA, NA, 3700,…</code></pre>
+</div>
+</div>
+</section>
+<section id="transformación-de-variables" class="level3" data-number="3.11.5">
+<h3 data-number="3.11.5" class="anchored" data-anchor-id="transformación-de-variables"><span class="header-section-number">3.11.5</span> Transformación de variables</h3>
+<p>El resumen de datos tambien permite identificar las variables por tipo, en este caso, dos variables han sido identificadas de tipo caracter <strong>species, island</strong>, pero realmente son variables categoricas. Una representa las especies de pinguinos y la otra la isla donde se realizo la observación, por lo que debe realizarse su transformación a tipo categórico o en este caso de tipo <strong>factor,</strong> para ello utilizamos <strong>as.factor(),</strong> para transformar la variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Verifcar si una variable tiene datos cualitaticos repetidos </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lo que indica que puede ser una var categorica</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos_pinguinos<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Adelie Chinstrap    Gentoo 
+      146        68       119 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#resultado</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Adelie Chinstrap    Gentoo </span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  146        68       119 </span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformar variables de tipo caracter a factor</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>species)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>island<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>island)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="co">#verificar variables</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 7
+$ species        &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adelie,…
+$ island         &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgersen, …
+$ bill_lenght    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 3…
+$ bill_depth     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 2…
+$ flipper_lenght &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, …
+$ male           &lt;int&gt; 3750, NA, NA, NA, 3650, NA, 4675, NA, 3800, 4400, NA, N…
+$ female         &lt;int&gt; NA, 3800, 3250, 3450, NA, 3625, NA, 3200, NA, NA, 3700,…</code></pre>
+</div>
+</div>
+</section>
+<section id="tidy-data" class="level3" data-number="3.11.6">
+<h3 data-number="3.11.6" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">3.11.6</span> Tidy data</h3>
+<p>Un elemento importante en los datos que utiliza ggplot, no es solo la estructura de la tabla (tibble o dataframe) ya que es posible generar visualizaciones utilizando cualquiera de las dos estructura de datos, lo que si es relevante es que ggplot solo trabaja con datos tipo <strong>tidy</strong> o datos ordenados.</p>
+<p>La librería <strong>dplyr, ggplot2</strong> y todos los demás paquetes de <strong>tidyverse</strong> están diseñados para funcionar con datos ordenados.</p>
+<p>Los datos ordenados es una forma de mostrar los datos basados en tres reglas interrelacionadas:</p>
+<ul>
+<li>Cada variable debe tener su propia columna.</li>
+<li>Cada observación debe tener su propia fila.</li>
+<li>Cada valor debe tener su propia celda.</li>
+</ul>
+<p><img src="img/tidy.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   species island    bill_lenght bill_depth flipper_lenght  male female
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;          &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+ 1 Adelie  Torgersen        39.1       18.7            181  3750     NA
+ 2 Adelie  Torgersen        39.5       17.4            186    NA   3800
+ 3 Adelie  Torgersen        40.3       18              195    NA   3250
+ 4 Adelie  Torgersen        36.7       19.3            193    NA   3450
+ 5 Adelie  Torgersen        39.3       20.6            190  3650     NA
+ 6 Adelie  Torgersen        38.9       17.8            181    NA   3625
+ 7 Adelie  Torgersen        39.2       19.6            195  4675     NA
+ 8 Adelie  Torgersen        41.1       17.6            182    NA   3200
+ 9 Adelie  Torgersen        38.6       21.2            191  3800     NA
+10 Adelie  Torgersen        34.6       21.1            198  4400     NA</code></pre>
+</div>
+</div>
+<p>Adicional a estas tres reglas podemos identificar que un conjunto de datos no está ordenado porque:</p>
+<ul>
+<li>Los encabezados de columna son valores, no nombres de variables</li>
+<li>Las variables se almacenan tanto en filas como en columnas.</li>
+<li>Los datos de una supuesta variable están en diferentes columnas.</li>
+</ul>
+<p>En el caso del tibble <strong>datos_pinguinos</strong> se observa que existen dos variables <strong>male</strong> y <strong>female</strong> que contienen los valores de la masa corporal de los pinguinos <strong>body_mass_g</strong>.</p>
+<p>Dentro de las reglas de los datos tidy, <strong>cada variable debe tener su propia columna</strong>, La masa corporal de los pinguinos debiera estar en una sola columan y no separada en las variables <strong>male</strong> y <strong>female</strong>, por otro lado, <strong>los encabezados de columna son valores, no nombres de variables</strong>, las variables <strong>male y female</strong> debieran estra en una variable del tipo sexo, que corresponde a una categoria.</p>
+<p>Esto indica que esta tibble <strong>datos_pinguinos</strong> no esta ordenado, este tipo de tabla se conoce como data <strong>wider o tabla ancha,</strong> ya que su crecimiento es a lo ancho de la tabla, por lo que debemos transformar estos datos en formato <strong>data larga o data longer</strong>, datos que crecen a lo largo de la tabla.Para ellos haremos usos de las funciones pivotes de R, especificamente <strong>pivot_longer()</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformar  a datos tidy</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Para transformar los datos a tidy, se identifican las columnas o variables </span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># que se desean unir y convertir en una sola variable</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># se coloca el nombre de la nueva variable con names_to</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># los datos que contenian las variable male y female pasan a otra variable </span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># a través de values_to.</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>datos_pinguinos_tidy <span class="ot">&lt;-</span> datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">"male"</span><span class="sc">:</span><span class="st">"female"</span>), </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">"sex"</span>, </span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">"body_mass_g"</span>)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co"># numero de observaciones generadas 666</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(datos_pinguinos_tidy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 666</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   species island    bill_lenght bill_depth flipper_lenght sex    body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;          &lt;int&gt; &lt;chr&gt;        &lt;int&gt;
+ 1 Adelie  Torgersen        39.1       18.7            181 male          3750
+ 2 Adelie  Torgersen        39.1       18.7            181 female          NA
+ 3 Adelie  Torgersen        39.5       17.4            186 male            NA
+ 4 Adelie  Torgersen        39.5       17.4            186 female        3800
+ 5 Adelie  Torgersen        40.3       18              195 male            NA
+ 6 Adelie  Torgersen        40.3       18              195 female        3250
+ 7 Adelie  Torgersen        36.7       19.3            193 male            NA
+ 8 Adelie  Torgersen        36.7       19.3            193 female        3450
+ 9 Adelie  Torgersen        39.3       20.6            190 male          3650
+10 Adelie  Torgersen        39.3       20.6            190 female          NA</code></pre>
+</div>
+</div>
+<p>Al mostrar los datos en formato tidy, podemos observar que se realizó el pivote de la tabla y se crearon las nuevas variables <strong>sex</strong> y <strong>body_mass_g</strong>, sin embargo, dentro de los datos había valores vacios <strong>(NA)</strong> en la tabla original que tambien se cargaron en esta tabla ordenada. Para eliminar estos datos debemos realizar nuevamente el proceso de pivoteo e indicarle a <strong>pivot_longer()</strong> con <strong>values_drop_na = TRUE</strong> para que elimine los datos vacios.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transformar a datos tidy eliminados filas vacias</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">"male"</span><span class="sc">:</span><span class="st">"female"</span>), </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">"sex"</span>, </span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">"body_mass_g"</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="co"># numero de observaciones generadas 333</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(datos_pinguinos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 333</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumend de datos , donde ya no se muestran los datos NA</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   species island    bill_lenght bill_depth flipper_lenght sex    body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;          &lt;int&gt; &lt;chr&gt;        &lt;int&gt;
+ 1 Adelie  Torgersen        39.1       18.7            181 male          3750
+ 2 Adelie  Torgersen        39.5       17.4            186 female        3800
+ 3 Adelie  Torgersen        40.3       18              195 female        3250
+ 4 Adelie  Torgersen        36.7       19.3            193 female        3450
+ 5 Adelie  Torgersen        39.3       20.6            190 male          3650
+ 6 Adelie  Torgersen        38.9       17.8            181 female        3625
+ 7 Adelie  Torgersen        39.2       19.6            195 male          4675
+ 8 Adelie  Torgersen        41.1       17.6            182 female        3200
+ 9 Adelie  Torgersen        38.6       21.2            191 male          3800
+10 Adelie  Torgersen        34.6       21.1            198 male          4400</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#transformar la variable sex a factor</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>sex)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(datos_pinguinos, "data/data_penguins_clean.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resumen-de-datos-con-función-skim" class="level3" data-number="3.11.7">
+<h3 data-number="3.11.7" class="anchored" data-anchor-id="resumen-de-datos-con-función-skim"><span class="header-section-number">3.11.7</span> Resumen de datos con función skim()</h3>
+<p>Otra de las funciones para hacer resumen de datos es la función <strong>skim()</strong>, donde se muestra el número de observaciones, variables y tipos de datos que contiene la tabla con las modificaciones realizadas, además de otras informaciones de interés, como la distribución de los datos a través de gráficos de histograma.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen Numérico de la tabla</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span>  </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">skim</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">datos_pinguinos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">factor</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: left;">ordered</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: left;">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">species</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Ade: 146, Gen: 119, Chi: 68</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">island</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Bis: 163, Dre: 123, Tor: 47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">mal: 168, fem: 165</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bill_lenght</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">43.99</td>
+<td style="text-align: right;">5.47</td>
+<td style="text-align: right;">32.1</td>
+<td style="text-align: right;">39.5</td>
+<td style="text-align: right;">44.5</td>
+<td style="text-align: right;">48.6</td>
+<td style="text-align: right;">59.6</td>
+<td style="text-align: left;">▃▇▇▆▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bill_depth</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">17.16</td>
+<td style="text-align: right;">1.97</td>
+<td style="text-align: right;">13.1</td>
+<td style="text-align: right;">15.6</td>
+<td style="text-align: right;">17.3</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">21.5</td>
+<td style="text-align: left;">▅▆▇▇▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">flipper_lenght</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">200.97</td>
+<td style="text-align: right;">14.02</td>
+<td style="text-align: right;">172.0</td>
+<td style="text-align: right;">190.0</td>
+<td style="text-align: right;">197.0</td>
+<td style="text-align: right;">213.0</td>
+<td style="text-align: right;">231.0</td>
+<td style="text-align: left;">▂▇▃▅▃</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body_mass_g</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4207.06</td>
+<td style="text-align: right;">805.22</td>
+<td style="text-align: right;">2700.0</td>
+<td style="text-align: right;">3550.0</td>
+<td style="text-align: right;">4050.0</td>
+<td style="text-align: right;">4775.0</td>
+<td style="text-align: right;">6300.0</td>
+<td style="text-align: left;">▃▇▅▃▂</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="gráfico-de-histograma-en-r" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Gráfico de Histograma en R</h1>
+<p>Un histograma visualiza la <strong>distribución y frecuencia datos</strong> durante un intervalo continuo o un período de tiempo determinado de <strong>una varible numérica</strong>. Cada barra en un histograma representa la frecuencia tabulada en cada intervalo tambien llamado <strong>bin</strong>. <br> Los histogramas ayudan a dar una estimación de dónde se concentran los valores, cuáles son los extremos y si hay valores inusuales.</p>
+<p>Como ejemplo podemos genertar un histograma c utilizando la variable numérica <strong>flipper_lenght</strong> y la geometría <strong>geom_histogram()</strong>. En ggplot el número de bins o intervalos predeterminado es de 30.<br> Este histograma muestra una distribución de los datos entre los valores de 170 a 230 no simétrica y los valores que más se repiten están entre los intervalos 180 a 200.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="modifcar-el-número-de-bins" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="modifcar-el-número-de-bins"><span class="header-section-number">4.1</span> Modifcar el número de bins</h2>
+<p>Al modificar el número de intervalos, en este caso menos intervalos, más datos se agrupan en cada intervalo, por lo que el el eje de las <strong>y</strong> tiende a incrementarse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modificar número de bins</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="modificar-color-de-las-líneas" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="modificar-color-de-las-líneas"><span class="header-section-number">4.2</span> Modificar color de las líneas</h2>
+<p>Utilizando nuevamente el intervalo de 30, es un poco complicado poder identifcar los intervalos con claridad, es por ello que modificaremos el color de linea de cada intervalo con la propiedad <strong>color =“#ffffff”</strong>. El valor entre comilla representa el color hexadecimal del blanco, pero podemos utilizar los nombres de los colores básicos en inglés (red, blue, yellow, black, white, brown, entre otros).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modificar el color de las lineas</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Bins predeterminados = 30</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span>, <span class="at">bins =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="modificar-color-de-relleno-bins" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="modificar-color-de-relleno-bins"><span class="header-section-number">4.3</span> Modificar color de relleno bins</h2>
+<p>Para modificar el color del relleno de cada intervalo utilizamos la función <strong>fill</strong>.<br> Los colores se pueden colocar con el <em>nombre del color</em> o con el <em>código hexadecimal</em>.<br> <a href="https://sape.inf.usi.ch/quick-reference/ggplot2/colour">Colores como nombre</a> <br> <a href="https://0to255.com/">Colores hexadecimales</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con colores en los bins para identificar </span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span> , </span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="añadir-datos-al-gráfico" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="añadir-datos-al-gráfico"><span class="header-section-number">4.4</span> Añadir datos al gráfico</h2>
+<p>Para añadir datos del conteo de las observaciones en un histograma, podemos utilizar la función <strong>stat_bin()</strong>, a esta función se le añade las propiedades <strong>label=..count..</strong> , que realiza el conteo por bins, además de la propiedad <strong>geom=“text”</strong> que indica que la propiedad es de tipo texto.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con colores en los bins para identificar </span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span> , </span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="fu">aes</span>(<span class="at">label=</span>..count..), </span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">geom=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="ajustar-datos-en-gráfico" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="ajustar-datos-en-gráfico"><span class="header-section-number">4.5</span> Ajustar datos en gráfico</h2>
+<p>Se puede ajustar la posición del texto utilizando las propiedades <strong>vjuts (posición vertical)</strong> y <strong>hjust(posición horizontal)</strong> en la función <strong>stat_bin()</strong> que permiten mover la posición del texto en horizontal y vertical.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con colores en los bins para identificar </span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span> , </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="fu">aes</span>(<span class="at">label=</span>..count..), </span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>, </span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust=</span> <span class="fl">0.5</span>,  </span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">geom=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="datos-en-gráfico-bins" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="datos-en-gráfico-bins"><span class="header-section-number">4.6</span> Datos en gráfico (bins)</h2>
+<p>Es importante resaltar que el bins=30 es el valor predeterminado en un histograma, si el valor se modifica como en el ejemplo, este valor se debe tambien modificar en la función <strong>stat_bin()</strong> , sino los datos no coincidiran en el gráfico.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con bins =15</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span> , </span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="fu">aes</span>(<span class="at">label=</span>..count..), </span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>, </span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust=</span> <span class="fl">0.5</span>,  </span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">geom=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con bins =15 en el histograma y en el texto</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span> , </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="fu">aes</span>(<span class="at">label=</span>..count..), </span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>, </span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust=</span> <span class="fl">0.5</span>,  </span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">geom=</span><span class="st">"text"</span>,</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">bins =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="añadir-info-al-gráfico" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="añadir-info-al-gráfico"><span class="header-section-number">4.7</span> Añadir info al gráfico</h2>
+<p>Para añadir una línea que intercepte o se dibuje en una posición x del gráfico se utiliza la función <strong>geom_vline()</strong>. xintercept = posición de intersección de la línea. <br> color = color de la línea. <br> size = tamaño de la línea. <br></p>
+<p>Valor y tipo de linea,</p>
+<ul>
+<li><p>linetype = 0 <strong>linetype = “blank”</strong></p></li>
+<li><p>linetype = 1 linetype = “solid”</p></li>
+<li><p>linetype = 2 linetype = “dashed”</p></li>
+<li><p>linetype = 3 linetype = “dotted”</p></li>
+<li><p>linetype = 4 linetype = “dotdash”</p></li>
+<li><p>linetype = 5 linetype = “longdash”</p></li>
+<li><p>linetype = 6 linetype = “twodash”</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculo de la media y la mediana</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos_pinguinos<span class="sc">$</span>flipper_lenght)</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>media</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 200.967</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="ot">&lt;-</span> <span class="fu">median</span>(datos_pinguinos<span class="sc">$</span>flipper_lenght)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>mediana</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 197</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con colores en los bins para identificar </span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mediana, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> media, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color=</span><span class="st">"blue"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Asimétrica, tiene sesgo a la Derecha (cola a la derecha)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="histograma-y-densidad" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="histograma-y-densidad"><span class="header-section-number">4.8</span> Histograma y densidad</h2>
+<p>Podemos añadir un gráfico de densidad (poligono) junto al gráfico de histograma utilizando la función <strong>geom_density()</strong> en una nueva capa y la estética en el histograma <strong>aes(y = ..density..)</strong>, recordando que para añadir esta nueva geometria, hay que colocar el signo de <strong>+</strong> al final del cierre del paréntesis de <strong>geom_histogram</strong> .</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con grafico de densidad</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lwd=1.5 , representa el grosor del borde del</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grafico de densidad</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), </span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#EF3C49"</span>, </span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">lwd=</span><span class="fl">1.5</span>, <span class="at">colour =</span> <span class="st">"blue"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="histograma-con-variable-categórica" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="histograma-con-variable-categórica"><span class="header-section-number">4.9</span> Histograma con variable categórica</h2>
+<p>Es posible utilizar una variable <strong>categórica</strong> en un histograma, en este caso la variable <strong>sex</strong> que contiene los valores del sexo de los pinguinos. Esta variable representa una estetica del gráfico, por lo tanto <strong>debe incluirse dentro de la propiedad aes()</strong> de la geometria <strong>geom_histogram()</strong> y la utilizaremos para modificar el color de relleno del histograma. <br> Como la variable <strong>sex</strong> tiene dos categorias, ggplot genera dos histogramas de diferentes colores, uno por cada categoría.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con dos variables</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># colores personalizados</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co"># paleta personalizada</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>colores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#1B9E77"</span>, <span class="st">"#D95F02"</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="añadir-datos-al-histograma" class="level3" data-number="4.9.1">
+<h3 data-number="4.9.1" class="anchored" data-anchor-id="añadir-datos-al-histograma"><span class="header-section-number">4.9.1</span> Añadir datos al histograma</h3>
+<p>Los códigos para colocar datos al histograma por categoría, es el mismo visto en los ejemplos anteriores donde se muestra texto en el gráfico de histograma..</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma dos variables</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="fu">aes</span>(<span class="at">label=</span>..count..), </span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.1</span>, </span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust=</span> <span class="fl">0.5</span>,  </span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">geom=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="histograma-con-transparencia" class="level3" data-number="4.9.2">
+<h3 data-number="4.9.2" class="anchored" data-anchor-id="histograma-con-transparencia"><span class="header-section-number">4.9.2</span> Histograma con transparencia</h3>
+<p>Podemos utilizar la propiedad alpha (transparencia) en le geometria <strong>geom_histograma()</strong> con valores de (0 a 1), 1 = 100%. <br> <strong>Para que usar la transparencia.</strong> <br> Cuando creamos este tipo de histogramas la naturaleza de ggplot, es crear los histograma una encima del otro, como si fueran un solo histograma pero separando la distribución de los datos según la variable <strong>sex</strong>, esto no permite comprar realmente la distribución de los datos de ambos histogramas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con dos variables</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>,</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="histograma-con-transparencia-position" class="level3" data-number="4.9.3">
+<h3 data-number="4.9.3" class="anchored" data-anchor-id="histograma-con-transparencia-position"><span class="header-section-number">4.9.3</span> Histograma con transparencia (position)</h3>
+<p>Si utilizamso la propiedad <strong>position = “identity”</strong> , en la geometria <strong>geom_histogram()</strong> podemos ver que ahora los histogramas se solapan, ya que uno esta detrás del otro, permitiendo comparar la distribución de los datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de histograma con dos variables</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>,</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha=</span><span class="fl">0.5</span>, </span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="facetas" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="facetas"><span class="header-section-number">4.10</span> Facetas</h2>
+<p>Las facetas son una forma más ordenada de mostrar los gráficos que muestran varias categorias, para ello debemos utilizar la función <strong>facet_grid()</strong> con el nombre de la variable. Los simbolos <strong>.~</strong> antes de la variable <strong>sex</strong> le indica a la faceta que debe colocar los gráficos categorizados en columnas, es decir uno al lado del otro.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>, </span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(.<span class="sc">~</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="recomendaciones-viz" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="recomendaciones-viz"><span class="header-section-number">4.11</span> Recomendaciones (VIZ)</h2>
+<section id="recomendación-1" class="level3" data-number="4.11.1">
+<h3 data-number="4.11.1" class="anchored" data-anchor-id="recomendación-1"><span class="header-section-number">4.11.1</span> Recomendación 1</h3>
+<p>Cuando se utilizan facetas para mostrar distribuciones por grupo, permite comparar las distribuciones por una variable categórica, sin embargo, al separar los datos es importante mirar <strong>el eje x</strong> donde el rango de distribución del sexo <strong>male</strong> es mayor, por lo que es recomendable <strong>mantener los ejes iguales</strong> modificando los valores con la función <strong>xlim()</strong> colocando los rangos de la distribución <strong>xlim(170,240)</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>, </span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(.<span class="sc">~</span>sex)<span class="sc">+</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">170</span>,<span class="dv">240</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="recomendación-2" class="level3" data-number="4.11.2">
+<h3 data-number="4.11.2" class="anchored" data-anchor-id="recomendación-2"><span class="header-section-number">4.11.2</span> Recomendación 2</h3>
+<p>Otra opción en el uso de facetas para no modificar el eje x, es usar las facetas en formato de filas. <br> Para generar las facetas en filas, debemos utilizar los simbolos <strong>~.</strong> después de la variable <strong>sex</strong> le indica a la faceta que debe colocar los gráficos categorizados en filas, uno debajo del otro. Esto permite una mejor comparación de los histogramas con las mismas coordenadas en el eje x.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>, </span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sex<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="titulos-y-nombre-de-ejes" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="titulos-y-nombre-de-ejes"><span class="header-section-number">4.12</span> Titulos y nombre de ejes</h2>
+<p>Podemos añadir titulos al gráfico y modificar la etqiueta de los ejes x, y , como el de la leyenda através de la función <strong>labs()</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>, </span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sex<span class="sc">~</span>.)<span class="sc">+</span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de las longuitud de la aleta de los pinguinos por sexo"</span>,</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Datos de las islas..."</span>,</span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">"Lonuitud"</span>,</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Cantidad"</span>,</span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="st">"Sexo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="práctica" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="práctica"><span class="header-section-number">4.13</span> Práctica</h2>
+<p>Crear gráfico de histograma utilizando los datos <strong>data_penguins_clean.csv</strong> que se encuentran en la carpeta <strong>data</strong>. <br> Al cargar los datos debe filtralos por la especie de <strong>Gentoo</strong>. Utilizar facetas basado en la variable <strong>sex</strong>.</p>
+<p><strong>Gráfico de resultado:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/data_penguins_clean.csv"</span>)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 8
+$ X              &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
+$ species        &lt;chr&gt; "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adel…
+$ island         &lt;chr&gt; "Torgersen", "Torgersen", "Torgersen", "Torgersen", "To…
+$ bill_lenght    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 3…
+$ bill_depth     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 2…
+$ flipper_lenght &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, …
+$ sex            &lt;chr&gt; "male", "female", "female", "female", "male", "female",…
+$ body_mass_g    &lt;int&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800, 4…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>species)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>island <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>island)</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>sex)</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), </span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span><span class="st">"#ffffff"</span>, </span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins=</span><span class="dv">30</span>, </span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sex<span class="sc">~</span>.)<span class="sc">+</span></span>
+<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de las longuitud de la aleta de los pinguinos por sexo"</span>,</span>
+<span id="cb89-15"><a href="#cb89-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Datos de las islas..."</span>,</span>
+<span id="cb89-16"><a href="#cb89-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">"Lonuitud"</span>,</span>
+<span id="cb89-17"><a href="#cb89-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Cantidad"</span>,</span>
+<span id="cb89-18"><a href="#cb89-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="st">"Sexo"</span>)<span class="sc">+</span></span>
+<span id="cb89-19"><a href="#cb89-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="gráfico-de-boxplot" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Gráfico de boxplot</h1>
+<p>El Diagrama de Caja y bigotes (box and whisker plot en inglés ) es un tipo de gráfico que muestra un resumen de la cantidad de datos en cinco medidas descriptivas, además de intuir su morfología y simetría. <br></p>
+<p>Este tipo de gráficos nos permite identificar valores atípicos y comparar distribuciones de una variable. Además de conocer de una forma cómoda y rápida como el 50% de los valores centrales se distribuyen, para ello utilizamos la geometría <strong>geom_boxplot()</strong>. <br></p>
+<p>Se pueden detectar los siguientes valores en el gráfico: <br></p>
+<ul>
+<li>Primer cuartil: representa el 25% de los datos.</li>
+<li>Tercer cuartil: representa el 75% de los datos acumulados..</li>
+<li>Mediana o Segundo Cuartil: Divide en dos partes iguales la distribución, acumula el 50% de los datos.</li>
+<li>Rango Intercuartílico (RIC): representa el 50% intermedio de los datos. Muestra la distancia entre el primer cuartil y el tercer cuartil (Q3-Q1).</li>
+<li>Valores mínimo y máximo.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valores de un boxplot</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(datos_pinguinos<span class="sc">$</span>flipper_lenght)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    172     190     197     201     213     231 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(datos_pinguinos<span class="sc">$</span>flipper_lenght)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1] 172 190 197 213 231
+
+$n
+[1] 333
+
+$conf
+[1] 195.0086 198.9914
+
+$out
+integer(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># REsumen de valores centrales y de variacion</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'summarytools'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:tibble':
+
+    view</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>summarytools<span class="sc">::</span><span class="fu">descr</span>(datos_pinguinos<span class="sc">$</span>flipper_lenght)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Descriptive Statistics  
+datos_pinguinos$flipper_lenght  
+N: 333  
+
+                    flipper_lenght
+----------------- ----------------
+             Mean           200.97
+          Std.Dev            14.02
+              Min           172.00
+               Q1           190.00
+           Median           197.00
+               Q3           213.00
+              Max           231.00
+              MAD            16.31
+              IQR            23.00
+               CV             0.07
+         Skewness             0.36
+      SE.Skewness             0.13
+         Kurtosis            -0.98
+          N.Valid           333.00
+        Pct.Valid           100.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Mostrar datos de datos con gráficos</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="co"># view(dfSummary(datos_pinguinos[,-1]))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="valores-atipicos" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="valores-atipicos"><span class="header-section-number">5.1</span> Valores atipicos</h2>
+<p>Son observaciones cuyos valores son muy diferentes a las de otras observaciones del mismo grupo de datos. Los datos atípicos son ocasionados por: errores de procedimiento, acontecimientos extraordinarios, valores extremos, estos valores pueden distorsionar los resultados del análisis de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co">#demo</span></span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>()</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Extarer datos de prueba</span></span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>valoresA <span class="ot">&lt;-</span>  datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">3</span>)</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sumarle 150 a los datos</span></span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>valoresA<span class="sc">$</span>flipper_lenght <span class="ot">&lt;-</span> valoresA<span class="sc">$</span>flipper_lenght <span class="sc">+</span> <span class="dv">80</span></span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a><span class="co"># unir datos</span></span>
+<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>datos_pinguinos_ <span class="ot">&lt;-</span> <span class="fu">rbind</span>(datos_pinguinos,valoresA)</span>
+<span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-12"><a href="#cb101-12" aria-hidden="true" tabindex="-1"></a><span class="co">#mostrar gráfico</span></span>
+<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(datos_pinguinos_<span class="sc">$</span>flipper_lenght)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1] 172.0 190.0 197.0 213.5 231.0
+
+$n
+[1] 336
+
+$conf
+[1] 194.9744 199.0256
+
+$out
+[1] 274 265 305</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># $stats</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 172 190 197 213 231</span></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="co">#194.9744 199.0256</span></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>(rango <span class="ot">&lt;-</span> <span class="dv">231-172</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 59</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 8
+$ X              &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
+$ species        &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adelie,…
+$ island         &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgersen, …
+$ bill_lenght    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6, 3…
+$ bill_depth     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2, 2…
+$ flipper_lenght &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 185, …
+$ sex            &lt;fct&gt; male, female, female, female, male, female, male, femal…
+$ body_mass_g    &lt;int&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800, 4…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co">#desviavion estandar</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(datos_pinguinos_<span class="sc">$</span>flipper_lenght)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15.95727</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(datos_pinguinos<span class="sc">$</span>sex)</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span> </span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media =</span> <span class="fu">mean</span>(flipper_lenght), </span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mediana =</span> <span class="fu">median</span>(flipper_lenght))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  sex    media mediana
+  &lt;fct&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+1 female  197.    193 
+2 male    205.    200.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span> sex, <span class="at">x=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-36-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot-vertical" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="boxplot-vertical"><span class="header-section-number">5.2</span> Boxplot vertical</h2>
+<p>Para girar el gráfico de boxplot en ggplot, solo debemos cambiar la asignación de la varible <strong>x= flipper_lenght</strong> a <strong>y= flipper_lenght</strong> en la estética <strong>aes()</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span> flipper_lenght)) <span class="sc">+</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot-con-distribución-de-puntos" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="boxplot-con-distribución-de-puntos"><span class="header-section-number">5.3</span> Boxplot con distribución de puntos</h2>
+<p>Para añadir los puntos de distribución en el gráfico del boxplot debemos hacer dos pasos: 1. Añadir el eje y=0 en el <strong>aes()</strong><br> 2. Utrilizar le geometría <strong>geom_jitter()</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght, <span class="at">y=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot-con-colores" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="boxplot-con-colores"><span class="header-section-number">5.4</span> Boxplot con colores</h2>
+<p>Para modificar la apariencia del gráfico de boxplot, debemos de modificar las propiedades en la geomatría <strong>geom_boxplot()</strong>.</p>
+<ul>
+<li><p><em>color = color de la línea del boxplot</em></p></li>
+<li><p>fill = color de la caja, si utilizamos , fill=“transparente” la caja es trasnparente.</p></li>
+<li><p>size = grosor de la linea del boxplot.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght, <span class="at">y=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"lightsalmon"</span>, </span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot-con-dos-variables" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="boxplot-con-dos-variables"><span class="header-section-number">5.5</span> Boxplot con dos variables</h2>
+<p>Se queremos utilizar dos variables para comparar su distribución, debemos utilizar una variable categórica, en este caso la variable <strong>island</strong> en el valor de <strong>X o Y,</strong> en función de si queremos mostrar el boxplot horizontal o verical.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span> flipper_lenght, <span class="at">x=</span>island)) <span class="sc">+</span></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boxplot-con-dos-variables---colores" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="boxplot-con-dos-variables---colores"><span class="header-section-number">5.6</span> Boxplot con dos variables - colores</h2>
+<p>Se queremos darle un color diferente a cada boxplot, colocamos en la geoametría del gráfico la propiedad <strong>fill=variable categórica</strong>, con ello se creará un color para cada boxplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span> flipper_lenght, <span class="at">x=</span>island)) <span class="sc">+</span></span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>island))<span class="sc">+</span></span>
+<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="gráfico-ridge" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Gráfico Ridge</h1>
+<p>Los diagramas de crestas <strong>ridges</strong> son diagramas de líneas parcialmente superpuestas que crean la impresión de una cadena montañosa. Pueden resultar muy útiles para visualizar cambios en las distribuciones a lo largo del tiempo o el espacio. Para su creación es necesario utilizar la geometria <strong>geom_density_ridges()</strong> que se encuentra en la libreria <strong>ggridges</strong>. A diferencia del diagrama de densidad e histograma, este tipo de gráfico necesita que se identifique los valores de <strong>X y Y</strong> en la estética <strong>aes()</strong> de ggplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico Ridge son color</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island)) <span class="sc">+</span></span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico Ridge  color relleno</span></span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island)) <span class="sc">+</span></span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>(<span class="at">fill=</span><span class="st">"salmon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-42-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="gráfico-ridge---color" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="gráfico-ridge---color"><span class="header-section-number">6.1</span> Gráfico Ridge - color</h2>
+<p>Para modificar el color del relleno en los gráficos tipo Ridge utilizamos la porpiedad <strong>fill</strong> y la variable <strong>island</strong> que indica el númeor de categorias, estas deben estar integradas en la estética aes() de la geoametría <strong>geom_density_ridges</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dos variable en el color de la lineas</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island)) <span class="sc">+</span></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">fill=</span>island))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="gráfico-ridge---color-palette" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="gráfico-ridge---color-palette"><span class="header-section-number">6.2</span> Gráfico Ridge - color palette</h2>
+<p>Podemos modificar el relleno en los gráficos tipo Ridge con colores diferentes a los colores predeterminados utilizando <strong>scale_fill_brewer</strong> y algún tipo de <a href="https://r-graph-gallery.com/38-rcolorbrewers-palettes.html">paleta de colores</a> en ggplot. En otro de los temas veremos el uso de estas paletas de colores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># colores con paleta de colores 1</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island)) <span class="sc">+</span></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">fill=</span>island))<span class="sc">+</span></span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Blues"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># colores con paleta de colores 2</span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island)) <span class="sc">+</span></span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">fill=</span>island))<span class="sc">+</span></span>
+<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Pastel2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-44-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># colores con paleta de colores 8</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>datos_pinguinos <span class="sc">|&gt;</span> </span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> flipper_lenght,</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span>island,</span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill=</span>island)) <span class="sc">+</span></span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>()<span class="sc">+</span></span>
+<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Spectral"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 3.23</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tema-ggplot-histograma_files/figure-html/unnamed-chunk-44-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conceptos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema-plot-barras.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gráfico de Barra</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
